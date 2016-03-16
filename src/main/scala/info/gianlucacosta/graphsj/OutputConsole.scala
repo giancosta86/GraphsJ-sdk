@@ -18,5 +18,35 @@
   ===========================================================================
 */
 
-rootProject.name = 'GraphsJ-sdk'
+package info.gianlucacosta.graphsj
 
+/**
+  * The application's text console
+  */
+trait OutputConsole {
+  /**
+    * Prints the string representation of a value
+    *
+    * @param value
+    */
+  def write(value: Any)
+
+  /**
+    * Prints the string representation of a value, followed by a newline character
+    *
+    * @param value
+    */
+  def writeln(value: Any)
+
+  /**
+    * Prints a newline character
+    */
+  def writeln()
+
+  /**
+    * Prints a header
+    *
+    * @param header The header text
+    */
+  def writeHeader(header: String)
+}

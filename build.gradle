@@ -2,21 +2,19 @@
   ===========================================================================
   GraphsJ - SDK
   ===========================================================================
-  Copyright (C) 2009-2015 Gianluca Costa
+  Copyright (C) 2009-2016 Gianluca Costa
   ===========================================================================
-  This program is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as
-  published by the Free Software Foundation, either version 3 of the
-  License, or (at your option) any later version.
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
 
-  This program is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
+       http://www.apache.org/licenses/LICENSE-2.0
 
-  You should have received a copy of the GNU General Public
-  License along with this program.  If not, see
-  <http://www.gnu.org/licenses/gpl-3.0.html>.
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
   ===========================================================================
 */
 
@@ -30,35 +28,33 @@ buildscript {
     }
 
     dependencies {
-        classpath 'info.gianlucacosta.moonlicense:moonlicense-gradle:3.0'
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.1'
-        classpath 'info.gianlucacosta.aurora:aurora:2.0'
+        classpath 'info.gianlucacosta.aurora:aurora:2.1'
+        classpath 'info.gianlucacosta.moonlicense:moonlicense-gradle:4.0'
     }
 }
 
 
-apply plugin: 'java'
+apply plugin: 'scala'
 apply plugin: 'info.gianlucacosta.aurora'
 
 
 group = 'info.gianlucacosta.graphsj'
 archivesBaseName = 'graphsj-sdk'
-version = '3.5'
+version = '4.0'
 
-description = 'GraphsJ - Scenario development kit (SDK)'
+description = 'GraphsJ - Scenario Development Kit (SDK)'
 
+project.ext.facebookPage = 'https://www.facebook.com/graphsj'
 
 
 dependencies {
-    compile 'info.gianlucacosta.arcontes:arcontes-fx:1.5'
-
-    testCompile 'info.gianlucacosta.arcontes:arcontes-test:1.5'
+    compile 'info.gianlucacosta.eighthbridge:eighthbridge:1.0'
 }
 
 
-
 aurora {
-    docTask = 'javadoc'
+    docTask = 'scaladoc'
     gitHubUser = 'giancosta86'
 
     author {
@@ -71,19 +67,18 @@ aurora {
         user = project.bintrayUser
         key = project.bintrayKey
         repo = 'Hephaestus'
-        licenses = ['GPL-3.0']
-        labels = ['GraphsJ', 'graphs', 'scenarios', 'SDK', 'library', 'Java']
+        licenses = ['Apache-2.0']
+        labels = ['GraphsJ', 'graphs', 'scenarios', 'development', 'SDK', 'library', 'Scala']
     }
 }
 
 
 moonLicense {
-    license = gpl3
+    license = apache2
 
     productInfo {
         productName = 'GraphsJ - SDK'
         inceptionYear = 2009
         copyrightHolder = 'Gianluca Costa'
     }
-
 }
