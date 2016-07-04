@@ -20,40 +20,33 @@
 
 package info.gianlucacosta.graphsj
 
+import info.gianlucacosta.eighthbridge.fx.canvas.basic.{BasicLink, BasicVertex}
+import info.gianlucacosta.eighthbridge.graphs.point2point.visual.VisualGraph
+
 /**
-  * Text output console
+  * Factory creating a scenario
+  *
   */
-trait OutputConsole {
+trait ScenarioFactory[
+V <: BasicVertex[V],
+L <: BasicLink[L],
+G <: VisualGraph[V, L, G]
+] {
   /**
-    * Prints the string representation of a value
+    * The name of the scenario, as shown in the "New problem..." dialog withing GraphsJ
     *
-    * @param value
+    * @return
     */
-  def write(value: Any)
+  def scenarioName: String
 
   /**
-    * Prints the string representation of a value, followed by a newline character
+    * Creates a new instance of the scenario
     *
-    * @param value
+    * @return The scenario
     */
-  def writeln(value: Any)
+  def createScenario: Option[Scenario[V, L, G]]
 
-  /**
-    * Prints a newline character
-    */
-  def writeln()
 
-  /**
-    * Prints a header
-    *
-    * @param header The header text
-    */
-  def writeHeader(header: String): Unit = {
-    val headerLine =
-      "-" * header.length
-
-    writeln(headerLine)
-    writeln(header)
-    writeln(headerLine)
-  }
+  override def toString: String =
+    scenarioName
 }

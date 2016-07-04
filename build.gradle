@@ -29,8 +29,8 @@ buildscript {
 
     dependencies {
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.6'
-        classpath 'info.gianlucacosta.moonlicense:moonlicense-gradle:4.0'
-        classpath 'info.gianlucacosta.aurora:aurora:4.0'
+        classpath 'info.gianlucacosta.moonlicense:moonlicense-gradle:4.3'
+        classpath 'info.gianlucacosta.aurora:aurora:7.0'
     }
 }
 
@@ -44,7 +44,7 @@ apply plugin: 'info.gianlucacosta.aurora'
 
 group = 'info.gianlucacosta.graphsj'
 archivesBaseName = 'graphsj-sdk'
-version = '4.1'
+version = '5.0'
 
 description = 'GraphsJ - Scenario Development Kit (SDK)'
 
@@ -52,7 +52,13 @@ project.ext.facebookPage = 'https://www.facebook.com/graphsj'
 
 
 dependencies {
-    compile 'info.gianlucacosta.eighthbridge:eighthbridge:1.2'
+    generatedCompile 'org.scala-lang:scala-library:2.11.8'
+
+    compile 'org.scala-lang:scala-library:2.11.8'
+
+    compile 'info.gianlucacosta.eighthbridge:eighthbridge:7.0'
+    compile 'info.gianlucacosta.helios:helios-core:4.1'
+    compile 'info.gianlucacosta.lambdaprism:lambdaprism:1.0'
 }
 
 
@@ -68,7 +74,15 @@ aurora {
     bintray {
         repo = 'Hephaestus'
         licenses = ['Apache-2.0']
-        labels = ['GraphsJ', 'graphs', 'scenarios', 'development', 'SDK', 'library', 'Scala']
+        labels = [
+                'GraphsJ',
+                'graphs',
+                'scenarios',
+                'development',
+                'SDK',
+                'library',
+                'Scala'
+        ]
     }
 }
 

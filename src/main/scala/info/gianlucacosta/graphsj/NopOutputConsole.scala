@@ -21,39 +21,14 @@
 package info.gianlucacosta.graphsj
 
 /**
-  * Text output console
+  * OutputConsole implementation doing just nothing
   */
-trait OutputConsole {
-  /**
-    * Prints the string representation of a value
-    *
-    * @param value
-    */
-  def write(value: Any)
+object NopOutputConsole extends OutputConsole {
+  override def write(value: Any): Unit = {}
 
-  /**
-    * Prints the string representation of a value, followed by a newline character
-    *
-    * @param value
-    */
-  def writeln(value: Any)
+  override def writeln(value: Any): Unit = {}
 
-  /**
-    * Prints a newline character
-    */
-  def writeln()
+  override def writeln(): Unit = {}
 
-  /**
-    * Prints a header
-    *
-    * @param header The header text
-    */
-  def writeHeader(header: String): Unit = {
-    val headerLine =
-      "-" * header.length
-
-    writeln(headerLine)
-    writeln(header)
-    writeln(headerLine)
-  }
+  override def writeHeader(header: String): Unit = {}
 }

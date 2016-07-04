@@ -21,39 +21,27 @@
 package info.gianlucacosta.graphsj
 
 /**
-  * Text output console
+  * OutputConsole implementation whose text can be inspected.
+  *
+  * Very useful for testing.
   */
-trait OutputConsole {
-  /**
-    * Prints the string representation of a value
-    *
-    * @param value
-    */
-  def write(value: Any)
+class BufferedOutputConsole extends OutputConsole {
+  private val stringBuilder =
+    new StringBuilder
 
-  /**
-    * Prints the string representation of a value, followed by a newline character
-    *
-    * @param value
-    */
-  def writeln(value: Any)
 
-  /**
-    * Prints a newline character
-    */
-  def writeln()
+  override def write(value: Any): Unit =
+    stringBuilder.append(value)
 
-  /**
-    * Prints a header
-    *
-    * @param header The header text
-    */
-  def writeHeader(header: String): Unit = {
-    val headerLine =
-      "-" * header.length
 
-    writeln(headerLine)
-    writeln(header)
-    writeln(headerLine)
-  }
+  override def writeln(value: Any): Unit =
+    stringBuilder.append(s"${value}\n")
+
+
+  override def writeln(): Unit =
+    stringBuilder.append("\n")
+
+
+  def text: String =
+    stringBuilder.toString()
 }

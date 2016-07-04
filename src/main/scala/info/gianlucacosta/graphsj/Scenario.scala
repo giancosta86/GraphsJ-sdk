@@ -21,53 +21,64 @@
 package info.gianlucacosta.graphsj
 
 import info.gianlucacosta.eighthbridge.fx.canvas.GraphCanvasController
-import info.gianlucacosta.eighthbridge.fx.canvas.basic.DragDropController
+import info.gianlucacosta.eighthbridge.fx.canvas.basic.{BasicLink, BasicVertex, DragDropController}
 import info.gianlucacosta.eighthbridge.graphs.point2point.visual.VisualGraph
 
 /**
   * A descriptor for an interactive problem that can be plugged into the application.
   *
-  * You can create one or more concrete classes and package them into a JAR file to deploy them.
+  * You also need to implement a ScenarioFactory to instantiate it.
+  *
+  * Deployment is very easy, as you just need to package your scenarios and the related
+  * factories in a JAR file, to be deployed to GraphsJ's scenarios directory.
+  *
   */
-trait Scenario extends Cloneable {
+trait Scenario[
+V <: BasicVertex[V],
+L <: BasicLink[L],
+G <: VisualGraph[V, L, G]
+] {
   /**
-    * The scenario name, as shown in the "New" dialog
+    * Scenario name, as shown in the "Scenario name" dialog. Can be different from the name
+    * provided by the related ScenarioFactory.
     */
   val name: String
 
   /**
-    * Show help for the scenario - for example, show a dialog, or open a web page
+    * Shows help for the scenario - for example, opening a dialog, or a web page
     */
   def showHelp(): Unit
 
   /**
-    * Show settings for the scenario. Usually, that means showing a dialog, but you could also
+    * Show settings for the scenario. Usually, this means showing a dialog, but you could also
     * notify the user that no settings are available.
     *
     * Please, note that a settings dialog should actually alter var fields within the scenario
     * instance: such instance is always saved by the application with the design graph whenever
     * the user saves their current workspace.
+    *
+    * @param designGraph The design graph
     */
-  def showSettings(): Unit
+  def showSettings(designGraph: G): Option[G]
 
   /**
     * Creates the design graph. You could want to return an instance of DefaultVisualGraph.
     *
-    * @return The graph interactively changed by the user while not running an algorithm
+    * @return The graph interactively changed by the user at design time  (=> when not running the algorithm)
     */
-  def createDesignGraph(): VisualGraph
+  def createDesignGraph(): G
 
   /**
-    * Creates the GraphCanvas controller to be used when not running the algorithm.
+    * Creates the GraphCanvas controller to be used at design time.
     * In particular, such controller says how to render graph components (vertexes, links, ...)
     * and what the user can interactively do.
     *
     * Usually, you'll have to create a custom class implementing BasicController
     * or one or more of its subtraits.
     *
-    * @return The GraphCanvas controller for the design phase (=> when not running the algorithm)
+    * @return The GraphCanvas controller for the design time
     */
-  def createDesignController(): GraphCanvasController
+  def createDesignController(): GraphCanvasController[V, L, G]
 
   /**
     * Creates the GraphCanvas controller to be used when running the algorithm.
@@ -77,20 +88,41 @@ trait Scenario extends Cloneable {
     *
     * @return The GraphCanvas controller for the runtime phase
     */
-  def createRuntimeController(): GraphCanvasController =
-    new DragDropController
+  def createRuntimeController(): GraphCanvasController[V, L, G] =
+    new DragDropController[V, L, G]
 
 
   /**
     * Create the algorithm instance when the runtime phase starts; the very same algorithm
-    * instance is then used at every algorithm step until that execution ends.
+    * instance is then used <i>at every algorithm step</i> until that execution ends.
     *
     * @return The algorithm instance for a single execution
     */
-  def createAlgorithm(): Algorithm
+  def createAlgorithm(): Algorithm[V, L, G]
 
 
-  override def toString: String = name
+  /**
+    * Returns a list of CSS stylesheets to be added to the scene when loading the scenario.
+    *
+    * Usually, unless you want to introduce very specific customization,
+    * the very first stylesheet to add should be <b>BasicStyles.resourceUrl.toExternalForm</b>,
+    * provided by the EighthBridge library
+    *
+    * @return A list of CSS URLs as expected by JavaFX
+    */
+  def stylesheets: List[String]
 
-  override def clone(): Scenario = super.clone().asInstanceOf[Scenario]
+
+  /**
+    * The number of algorithm steps that GraphsJ can perform before asking the user
+    * if a <i>full</i> execution can go on. Does not affect step-by-step run and Algorithm methods.
+    *
+    * @return The interval (in steps) after which the framework pauses the execution with
+    *         a confirmation dialog. If a value <= 0 is returned, no confirmation dialog will be shown
+    */
+  def runStepsBeforePausing: Int
+
+
+  override def toString: String =
+    name
 }

@@ -20,12 +20,14 @@
 
 package info.gianlucacosta.graphsj
 
-import info.gianlucacosta.eighthbridge.graphs.point2point.visual.VisualGraph
+import info.gianlucacosta.eighthbridge.graphs.point2point.visual.{VisualGraph, VisualLink, VisualVertex}
+
+import scala.annotation.tailrec
 
 /**
   * Interactive lightweight algorithm, based on the VisualGraph drawn by the user
   */
-trait Algorithm {
+trait Algorithm[V <: VisualVertex[V], L <: VisualLink[L], G <: VisualGraph[V, L, G]] {
   /**
     * Executes a step of the algorithm.
     *
@@ -47,7 +49,31 @@ trait Algorithm {
     */
   def runStep(
                stepIndex: Int,
-               graph: VisualGraph,
+               graph: G,
                console: OutputConsole
-             ): (VisualGraph, Boolean)
+             ): (G, Boolean)
+
+
+  /**
+    * Executes the algorithm until completion, returning the result graph.
+    *
+    * @param graph   The design graph
+    * @param console The output console
+    * @return The graph returned by the last algorithm iteration
+    */
+  def fullRun(graph: G, console: OutputConsole): G = {
+    fullRun(0, graph, console)._1
+  }
+
+
+  @tailrec
+  private def fullRun(stepIndex: Int, graph: G, console: OutputConsole): (G, Boolean) = {
+    val (newGraph, theAlgorithmContinues) =
+      runStep(stepIndex, graph, console)
+
+    if (theAlgorithmContinues)
+      fullRun(stepIndex + 1, newGraph, console)
+    else
+      (newGraph, theAlgorithmContinues)
+  }
 }
