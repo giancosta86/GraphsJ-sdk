@@ -7,7 +7,7 @@
 
 **GraphsJ SDK** is a library providing traits and classes to easily create scenarios that can be imported and run within [GraphsJ](http://gianlucacosta.info/GraphsJ/).
 
-Unlike the previous releases, the current version of the framework is very minimalist and inspired by Functional Programming - in particular, it employs the [EighthBridge](https://github.com/giancosta86/EighthBridge) toolkit.
+The framework is very minimalist and inspired by Functional Programming - in particular, it employs the [EighthBridge](https://github.com/giancosta86/EighthBridge) toolkit.
 
 
 ## Referencing the SDK
@@ -52,7 +52,7 @@ The following libraries are automatically provided by GraphsJ SDK:
 
 * [OmniEditor](https://github.com/giancosta86/OmniEditor): providing an editor with syntax highlighting
 
-* [Helios-core](https://github.com/giancosta86/Helios-core): library with shared utilities
+* [Helios-fx](https://github.com/giancosta86/Helios-fx): library of shared utilities
 
 
 Other libraries *cannot* be referenced by a scenario, unless your build tools includes their classes within your jar, making it self-contained.

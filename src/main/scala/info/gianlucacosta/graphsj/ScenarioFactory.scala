@@ -20,16 +20,15 @@
 
 package info.gianlucacosta.graphsj
 
-import info.gianlucacosta.eighthbridge.fx.canvas.basic.{BasicLink, BasicVertex}
-import info.gianlucacosta.eighthbridge.graphs.point2point.visual.VisualGraph
+import info.gianlucacosta.eighthbridge.graphs.point2point.visual.{VisualGraph, VisualLink, VisualVertex}
 
 /**
   * Factory creating a scenario
   *
   */
 trait ScenarioFactory[
-V <: BasicVertex[V],
-L <: BasicLink[L],
+V <: VisualVertex[V],
+L <: VisualLink[L],
 G <: VisualGraph[V, L, G]
 ] {
   /**

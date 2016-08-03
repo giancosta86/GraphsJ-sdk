@@ -21,8 +21,7 @@
 package info.gianlucacosta.graphsj
 
 import info.gianlucacosta.eighthbridge.fx.canvas.GraphCanvasController
-import info.gianlucacosta.eighthbridge.fx.canvas.basic.{BasicLink, BasicVertex, DragDropController}
-import info.gianlucacosta.eighthbridge.graphs.point2point.visual.VisualGraph
+import info.gianlucacosta.eighthbridge.graphs.point2point.visual.{VisualGraph, VisualLink, VisualVertex}
 
 /**
   * A descriptor for an interactive problem that can be plugged into the application.
@@ -34,8 +33,8 @@ import info.gianlucacosta.eighthbridge.graphs.point2point.visual.VisualGraph
   *
   */
 trait Scenario[
-V <: BasicVertex[V],
-L <: BasicLink[L],
+V <: VisualVertex[V],
+L <: VisualLink[L],
 G <: VisualGraph[V, L, G]
 ] {
   /**
@@ -76,6 +75,12 @@ G <: VisualGraph[V, L, G]
     * Usually, you'll have to create a custom class implementing BasicController
     * or one or more of its subtraits.
     *
+    * This method is called:
+    * <ul>
+    * <li>As soon as the scenario is created, to inject it into a new graph canvas</li>
+    * <li>When the settings are changed</li>
+    * </ul>
+    *
     * @return The GraphCanvas controller for the design time
     */
   def createDesignController(): GraphCanvasController[V, L, G]
@@ -83,14 +88,12 @@ G <: VisualGraph[V, L, G]
   /**
     * Creates the GraphCanvas controller to be used when running the algorithm.
     *
-    * Usually, the default DragDropController is a good choice, as it limits
+    * Usually, a DragDropController is a good choice, as it limits
     * the user's interactivity to drag&drop only.
     *
     * @return The GraphCanvas controller for the runtime phase
     */
-  def createRuntimeController(): GraphCanvasController[V, L, G] =
-    new DragDropController[V, L, G]
-
+  def createRuntimeController(): GraphCanvasController[V, L, G]
 
   /**
     * Create the algorithm instance when the runtime phase starts; the very same algorithm
