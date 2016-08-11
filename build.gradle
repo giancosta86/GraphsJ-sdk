@@ -44,7 +44,7 @@ apply plugin: 'info.gianlucacosta.aurora'
 
 group = 'info.gianlucacosta.graphsj'
 archivesBaseName = 'graphsj-sdk'
-version = '6.0'
+version = '6.1'
 
 description = 'GraphsJ - Scenario Development Kit (SDK)'
 
@@ -56,8 +56,8 @@ dependencies {
 
     compile 'org.scala-lang:scala-library:2.11.8'
 
-    compile 'info.gianlucacosta.eighthbridge:eighthbridge:8.1'
-    compile 'info.gianlucacosta.lambdaprism:lambdaprism:2.0'
+    compile 'info.gianlucacosta.eighthbridge:eighthbridge:8.2'
+    compile 'info.gianlucacosta.lambdaprism:lambdaprism:3.0'
 }
 
 
